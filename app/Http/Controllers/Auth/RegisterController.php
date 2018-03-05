@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Model\Companies;
+use App\Model\Recruiters;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -50,6 +52,8 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -63,10 +67,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+
+        $recruiters = new Recruiters();
+        $companies  = new Companies();
+        $user = new User();
+
+        $companies->name = $data['name'];
+        $companies->save();
+
+        $recruiters->first_name = $data['first_name'];
+        $recruiters->last_name  = $data['last_name'];
+        $recruiters->company_id = $companies->id;
+        $recruiters->save();
+
+        $user->name = $data['name'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->recruiter_id = $recruiters->id;
+        $user->save();
+
+
+
+        return redirect(route('home'));
     }
 }

@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -25,3 +25,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/jobs', 'JobsController@index')->name('jobs');
 Route::get('/jobs/create', 'JobsController@create')->name('create-job');
+
+//Route::get('/register', 'RegisterController@viewIndex');
+//Route::post('/register', 'RegisterController@create')->name('register');

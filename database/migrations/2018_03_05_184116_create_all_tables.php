@@ -16,7 +16,7 @@ class CreateAllTables extends Migration
         Schema::create('companies', function(Blueprint $table){
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
 
             $table->timestamps();
         });
@@ -50,8 +50,8 @@ class CreateAllTables extends Migration
         });
 
         Schema::table('users', function(Blueprint $table){
-            $table->integer('recruiter_id')->unsigned();
-            $table->string('photo_url');
+            $table->integer('recruiter_id')->unsigned()->after('id');
+            $table->string('photo_url')->nullable()->after('password');
 
             $table->foreign('recruiter_id')
                 ->references('id')
