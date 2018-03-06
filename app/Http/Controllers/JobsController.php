@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Jobs;
+use App\Model\Recruiters;
 use Illuminate\Http\Request;
 use App\Http\Requests\JobRequest;
 
@@ -27,7 +28,8 @@ class JobsController extends Controller
      */
     public function create()
     {
-        return view('jobs.create');
+        $recruiters = Recruiters::all();
+        return view('jobs.create',compact('recruiters'));
     }
 
     /**
@@ -38,7 +40,8 @@ class JobsController extends Controller
      */
     public function store(JobRequest $request)
     {
-        dd($request);
+        Jobs::create($request->all());
+        return redirect(route('jobs'));
     }
 
     /**
@@ -58,31 +61,38 @@ class JobsController extends Controller
      * @param  \App\Model\Jobs  $jobs
      * @return \Illuminate\Http\Response
      */
-    public function edit(Jobs $jobs)
+    public function edit($id)
     {
-        //
+        $job = Jobs::findOrFail($id);
+        $recruiters = Recruiters::all();
+        return view('jobs.edit', compact('job', 'recruiters'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Jobs  $jobs
+     * @param  \App\Http\Requests\JobRequest  $request
+     * @param    $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Jobs $jobs)
+    public function update(JobRequest $request, $id)
     {
-        //
+        Jobs::findOrFail($id)->update($request->all());
+        return redirect(route('jobs'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Jobs  $jobs
+     * @param    $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Jobs $jobs)
+    public function destroy($id)
     {
-        //
+        $job = Jobs::findOrFail($id);
+        if(!empty($job)){
+            Jobs::destroy($id);
+        }
+        return redirect(route('jobs'));
     }
 }

@@ -26,5 +26,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/jobs', 'JobsController@index')->name('jobs');
 Route::get('/jobs/create', 'JobsController@create')->name('create-job');
 Route::post('/jobs/store', 'JobsController@store');
+Route::get('/jobs/edit/{id}', 'JobsController@edit');
+Route::put('/jobs/update/{id}', 'JobsController@update');
+Route::get('/jobs/destroy/{id}', 'JobsController@destroy');
 
 

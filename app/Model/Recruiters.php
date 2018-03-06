@@ -39,4 +39,8 @@ class Recruiters extends Model
     public function job(){
         return $this->hasOne(Jobs::class);
     }
+
+    public function fullName(){
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

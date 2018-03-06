@@ -19,4 +19,14 @@ class Jobs extends Model
         'title' => 'string',
         'description' => 'string'
     ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at'
+    ];
+
+    public function recruiter(){
+        return $this->belongsTo(Recruiters::class, 'recruiter_id');
+    }
+
 }

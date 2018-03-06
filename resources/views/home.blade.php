@@ -14,7 +14,8 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    You are logged in!<br>
+                        <a href="/jobs">Jobs</a>
                 </div>
             </div>
         </div>
