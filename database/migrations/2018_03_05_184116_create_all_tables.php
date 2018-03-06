@@ -32,7 +32,7 @@ class CreateAllTables extends Migration
             $table->foreign('company_id')
                 ->references('id')
                 ->on('companies')
-                ->OnDelete('cascade');
+                ->onDelete('cascade');
 
         });
 
@@ -46,7 +46,7 @@ class CreateAllTables extends Migration
             $table->foreign('recruiter_id')
                 ->references('id')
                 ->on('recruiters')
-                ->OnDelete('cascade');
+                ->onDelete('cascade');
         });
 
         Schema::table('users', function(Blueprint $table){
@@ -56,7 +56,7 @@ class CreateAllTables extends Migration
             $table->foreign('recruiter_id')
                 ->references('id')
                 ->on('recruiters')
-                ->OnDelete('cascade');
+                ->onDelete('cascade');
         });
     }
 

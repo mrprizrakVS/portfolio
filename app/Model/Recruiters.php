@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Recruiters extends Model
@@ -14,6 +15,12 @@ class Recruiters extends Model
         'last_name'
     ];
 
+    protected $casts = [
+        'company_id' => 'integer',
+        'first_name' => 'string',
+        'last_name' => 'string'
+    ];
+
     public $timestamps = false;
 
     protected $dates = [
@@ -23,5 +30,13 @@ class Recruiters extends Model
 
     public function company(){
         return $this->belongsTo(Companies::class, 'company_id');
+    }
+
+    public function user(){
+        return $this->hasOne(User::class);
+    }
+
+    public function job(){
+        return $this->hasOne(Jobs::class);
     }
 }

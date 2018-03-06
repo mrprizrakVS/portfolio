@@ -67,27 +67,21 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $companiesId = Companies::create([
+            'name' => $data['name']
+        ])->id;
 
-        $recruiters = new Recruiters();
-        $companies  = new Companies();
-        $user = new User();
+        $recruitersId = Recruiters::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'company_id' => $companiesId
+        ])->id;
 
-        $companies->name = $data['name'];
-        $companies->save();
-
-        $recruiters->first_name = $data['first_name'];
-        $recruiters->last_name  = $data['last_name'];
-        $recruiters->company_id = $companies->id;
-        $recruiters->save();
-
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = Hash::make($data['password']);
-        $user->recruiter_id = $recruiters->id;
-        $user->save();
-
-
-
-        return redirect(route('home'));
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'recruiter_id' => $recruitersId
+        ]);
     }
 }

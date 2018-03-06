@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Model\Jobs;
 use Illuminate\Http\Request;
+use App\Http\Requests\JobRequest;
 
 class JobsController extends Controller
 {
@@ -35,9 +36,9 @@ class JobsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JobRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**

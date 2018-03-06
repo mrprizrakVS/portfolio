@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Model\Recruiters;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -21,7 +22,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'recruiter_id'
     ];
 
     /**
@@ -32,4 +33,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    public function recruiter(){
+        return $this->belongsTo(Recruiters::class, 'recruiter_id');
+    }
 }

@@ -25,6 +25,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/jobs', 'JobsController@index')->name('jobs');
 Route::get('/jobs/create', 'JobsController@create')->name('create-job');
+Route::post('/jobs/store', 'JobsController@store');
 
-//Route::get('/register', 'RegisterController@viewIndex');
-//Route::post('/register', 'RegisterController@create')->name('register');
+
