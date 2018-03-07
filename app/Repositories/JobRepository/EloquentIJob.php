@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: User
- * Date: 07.03.2018
- * Time: 12:12
- */
 
 namespace App\Repositories\JobRepository;
 
