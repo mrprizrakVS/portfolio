@@ -35,5 +35,5 @@
 
         </tbody>
     </table>
-
+{{$jobs->links()}}
     @endsection

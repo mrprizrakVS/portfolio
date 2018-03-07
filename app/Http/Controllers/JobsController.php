@@ -2,13 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\Jobs;
-use App\Model\Recruiters;
-use Illuminate\Http\Request;
+//use App\Models\Jobs;
+use App\Models\Recruiters;
 use App\Http\Requests\JobRequest;
+use App\Repositories\JobRepository\IJobRepository;
 
 class JobsController extends Controller
 {
+    private $model;
+    /**
+     * JobsController constructor.
+     */
+    public function __construct(IJobRepository $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +25,7 @@ class JobsController extends Controller
      */
     public function index()
     {
-        $jobs = Jobs::all();
+        $jobs = $this->model->getAll(10);
 
         return view('jobs.index', compact('jobs'));
     }
@@ -29,25 +38,27 @@ class JobsController extends Controller
     public function create()
     {
         $recruiters = Recruiters::all();
+
         return view('jobs.create',compact('recruiters'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\JobRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(JobRequest $request)
     {
-        Jobs::create($request->all());
+        $this->model->create($request->all());
+
         return redirect(route('jobs'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\Jobs  $jobs
+     * @param  \App\Models\Jobs  $jobs
      * @return \Illuminate\Http\Response
      */
     public function show(Jobs $jobs)
@@ -58,12 +69,12 @@ class JobsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Jobs  $jobs
+     * @param  \App\Models\Jobs  $jobs
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $job = Jobs::findOrFail($id);
+        $job = $this->model->getById($id);
         $recruiters = Recruiters::all();
         return view('jobs.edit', compact('job', 'recruiters'));
     }
@@ -77,7 +88,7 @@ class JobsController extends Controller
      */
     public function update(JobRequest $request, $id)
     {
-        Jobs::findOrFail($id)->update($request->all());
+        $this->model->update($id, $request->all());
         return redirect(route('jobs'));
     }
 
@@ -89,10 +100,7 @@ class JobsController extends Controller
      */
     public function destroy($id)
     {
-        $job = Jobs::findOrFail($id);
-        if(!empty($job)){
-            Jobs::destroy($id);
-        }
+        $this->model->delete($id);
         return redirect(route('jobs'));
     }
 }
